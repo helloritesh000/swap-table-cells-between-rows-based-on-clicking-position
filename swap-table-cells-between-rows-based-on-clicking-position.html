@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+<style type="text/css">
+body{
+font-size: 30px;
+text-align: center;
+background-color: ivory;
+}
+table{
+width:100px;
+
+}
+h1{
+font-family: Helvetica;
+font-size: 30px;
+}
+th{
+border: 10px solid black;
+padding: 5px;
+font-size: 70px;
+}
+td{
+border: 10px solid black;
+padding: 5px;
+font-size: 130px;
+
+}
+
+tr.center, td.center{
+text-align: center;
+}
+td:not(.notSelectable) {
+cursor: pointer
+}
+
+td.selected,
+td.lastSelected {
+background-color: yellow;
+color: white;
+}
+</style>
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+$(function() {
+	$("table td:not(.notSelectable)").click(function() {
+		var otherTrIndex = ($(this).closest('tr').index() == 1) ? 0 : 1;
+		if($(this).closest('tr').find('td.selected').length >= 1 
+		|| $(this).closest('tr').find('td.lastSelected').length >= 1 
+		|| ($('td.selected').length > 0 
+			&& $($('table').find('tr')[otherTrIndex]).find('td.selected').length != ($(this).index() + 1)
+				)
+		)
+		{
+			return false;
+		}
+		$(".lastSelected").removeClass("lastSelected");
+		$(".selected").toggleClass("selected lastSelected");
+		for(i = 0; i <= $(this).index(); i++)
+		{
+			$($(this).closest('tr').find('td')[i]).addClass("selected");
+		}
+		// $(this).addClass("selected");
+	});
+});
+
+function swap() {
+	/*if ($(".selected, .lastSelected").length != 2) 
+	{ 
+		return;
+	}
+	
+	var classToLoop = $('table tr:firstChild').find('td.selected').length + $('table tr:firstChild').find('td.lastSelected').length;
+	
+	$("#lblSelectedDate").text($(".selected").siblings(".date").text());
+	$("#lblLastSelectedDate").text($(".lastSelected").siblings(".date").text());
+
+   // Set label with value data
+
+   $("#lblSelectedValue").text($(".selected").children("input[type=hidden]").val());
+   $("#lblLastSelectedValue").text($(".lastSelected").children("input[type=hidden]").val());
+
+	// Swap cell data
+	var temp = $(".lastSelected").html();
+	$(".lastSelected").html($(".selected").html());
+	$(".selected").html(temp);
+	$(".selected, .lastSelected").removeClass();*/
+
+	
+	
+	var selectedTd = $('td.selected');
+	var lastSelectedTd = $('td.lastSelected');
+	for(i = 0; i < selectedTd.length; i++)
+	{
+		var selectedTdHtml = selectedTd[i].outerHTML;
+		selectedTd[i].outerHTML = lastSelectedTd[i].outerHTML;
+		lastSelectedTd[i].outerHTML = selectedTdHtml;
+	}
+	
+	$(".selected, .lastSelected").removeClass();
+}
+</script>
+
+<body>
+<button onclick="swap();">Crossover</button>
+<br /><br />
+
+
+<table border="1" align = "center">
+
+<tbody>
+<tr>
+
+  <td bgcolor = "#4caf50">0<input type="hidden" value="0" /></td>
+  <td bgcolor = "#4caf50">1<input type="hidden" value="1" /></td>
+  <td bgcolor = "#4caf50">1<input type="hidden" value="1" /></td>
+  <td bgcolor = "#4caf50">0<input type="hidden" value="0" /></td>
+  <td bgcolor = "#4caf50">1<input type="hidden" value="1" /></td>
+  <td bgcolor = "#4caf50">0<input type="hidden" value="0" /></td>
+  <td bgcolor = "#4caf50">0<input type="hidden" value="0" /></td>
+  <td bgcolor = "#4caf50">1<input type="hidden" value="1" /></td>
+  <td bgcolor = "#4caf50">1<input type="hidden" value="1" /></td>
+  <td bgcolor = "#4caf50">1<input type="hidden" value="1" /></td>
+  <th>P1</th>
+
+</tr>
+<tr>
+  <td bgcolor ="#ff0000">0<input type="hidden" value="0" /></td>
+  <td bgcolor= "#ff0000">0<input type="hidden" value="0" /></td>
+  <td bgcolor= "#ff0000">0<input type="hidden" value="0" /></td>
+  <td bgcolor= "#ff0000">1<input type="hidden" value="1" /></td>
+  <td bgcolor ="#ff0000">1<input type="hidden" value="1" /></td>
+  <td bgcolor ="#ff0000">1<input type="hidden" value="1" /></td>
+  <td bgcolor= "#ff0000">0<input type="hidden" value="0" /></td>
+  <td bgcolor ="#ff0000">1<input type="hidden" value="1" /></td>
+  <td bgcolor= "#ff0000">1<input type="hidden" value="1" /></td>
+  <td bgcolor= "#ff0000">0<input type="hidden" value="0" /></td>
+  <th>P2</th>
+</tr>
+
+</tbody>
+</table>
+
+</body>
+</html>
